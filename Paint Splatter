@@ -1,0 +1,38 @@
+var generator = new Random(1);
+var standardDeviation = 6;
+var mean = 0;
+
+
+var drawthing = function() {
+   this.x = 200;
+   this.y = 200;
+};
+
+
+drawthing.prototype.display = function() {
+    var len = random(20);
+    noStroke();
+    var gene = generator.nextGaussian() * 15;
+    var l = standardDeviation * gene + mean;
+    var o = standardDeviation * gene + mean - 200;
+    var p = standardDeviation * gene + mean - 100;
+    fill(l,o,p);
+    ellipse(this.x,this.y,len,len);
+};
+
+drawthing.prototype.draws = function() {
+    var nummx  = generator.nextGaussian();
+    var nummy = generator.nextGaussian();
+    var x1 = standardDeviation * nummx + mean;
+    var y1 = standardDeviation * nummy + mean;
+    
+    this.x += x1;
+    this.y += y1;
+};
+
+var q = new drawthing();
+
+draw = function() {
+     q.draws();
+     q.display();
+};
