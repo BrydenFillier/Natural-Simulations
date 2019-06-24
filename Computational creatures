@@ -1,0 +1,79 @@
+
+var maxDir = PVector.sub (new PVector (0, 0), new PVector (width-1, height-1));
+
+var maxMag = maxDir.mag();
+
+var Mover = function() {
+    this.position = new PVector(width/2, height/2);
+    this.velocity = new PVector(0, 0);
+    this.acceleration = new PVector(0, 0);
+};
+
+Mover.prototype.update = function() {
+    
+    var m = new PVector(random(400), random(400));
+    var dir = PVector.sub(m, this.position);
+    var closeness = (maxMag - dir.mag()) / maxMag;
+    dir.normalize();
+    dir.mult(closeness+1);
+    
+    this.acceleration = dir;
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(5);
+    this.position.add(this.velocity);
+};
+
+Mover.prototype.display = function() {
+    image(getImage("avatars/leaf-green"), 10, 256, 101, 160);
+    image(getImage("avatars/leaf-green"), 266, 257, 103, 157);
+    fill(120, 245, 120);
+    arc(202, 304, 105, 98, 336, 656);
+    fill(255, 0, 0);
+    triangle(202, 304, 250, 285, 254, 301);
+    fill(245, 228, 228);
+    triangle(202, 304, 212, 293, 213, 303);
+    triangle(220, 303, 227, 288, 231, 300);
+    triangle(240, 303, 245, 292, 248, 303);
+    triangle(213, 289, 219, 276, 222, 286);
+    triangle(231, 269, 220, 269, 224, 262);
+    strokeWeight(8);
+    stroke(31, 156, 26);
+    line(200, 400, 200, 354);
+    
+    stroke(0, 0, 0);
+    strokeWeight(2);
+    fill(0, 0, 0);
+    ellipse(this.position.x-28, this.position.y, 20, 20);
+    fill(255, 0, 0);
+    ellipse(this.position.x, this.position.y, 48, 48);
+    fill(0, 0, 0);
+    line(this.position.x-24, this.position.y, this.position.x+23, this.position.y);
+    ellipse(this.position.x-13, this.position.y-7, 10, 8);
+    ellipse(this.position.x, this.position.y-15, 10, 8);
+    ellipse(this.position.x+13, this.position.y-7, 10, 8);
+    ellipse(this.position.x-13, this.position.y+9, 10, 8);
+    ellipse(this.position.x, this.position.y+7, 10, 8);
+    ellipse(this.position.x+13, this.position.y+12, 10, 8);
+    
+};
+
+Mover.prototype.checkEdges = function() {
+  if ((this.position.x>150) && (this.position.x<202) && (this.position.y>250)){
+        this.position.x = 100;
+        this.position.y = 240;
+  }
+  else if ((this.position.x<255) && (this.position.x > 202) && (this.position.y>250)){
+      this.position.x = 350;
+      this.position.y = 240;
+  }
+};
+
+var mover = new Mover();
+
+draw = function() {
+    background(194, 249, 252);
+    
+    mover.update();
+    mover.checkEdges();
+    mover.display(); 
+};
